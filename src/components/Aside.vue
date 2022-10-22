@@ -12,13 +12,21 @@
     <el-menu-item index="/">
       <template slot="title">
         <i class="el-icon-search" style="padding-right: 0px;color: #cccccc;font-size: 20px"></i>
+        <span style="font-size: 15px;color: #01D2F7;padding-left: 0px">基础封装</span>
+      </template>
+    </el-menu-item>
+
+
+    <el-menu-item index="/" v-if="false">
+      <template slot="title">
+        <i class="el-icon-search" style="padding-right: 0px;color: #cccccc;font-size: 20px"></i>
         <span style="font-size: 15px;color: #01D2F7;padding-left: 0px">使用手册</span>
       </template>
     </el-menu-item>
 
 
     <!--菜单的第一项-->
-    <el-submenu index="1">
+    <el-submenu index="1" v-if="false">
       <template slot="title">
         <i class="el-icon-edit-outline" style="padding-right: 0px;color: #cccccc;font-size: 20px"></i>
         <span style="font-size: 15px;color: #01D2F7;padding-left: 0px">打包封装</span>

@@ -229,7 +229,6 @@ export default {
   },
   mounted() {
     this.softwareLanguages = this.loadAll();
-
   },
 }
 </script>

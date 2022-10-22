@@ -9,7 +9,7 @@ const routes = [
     path: '/',
     name: 'Manage',
     component: () => import('../views/Manager'),
-    redirect: "/home",
+    redirect: "/basicPackage/easyPackage",
     meta: {needLogin: true},
     children: [
       //主页路由
@@ -34,6 +34,10 @@ const routes = [
         path: 'containerService/completePackaging', name: 'completePackaging', component: () => import('../views/containerService/completePackaging')
       },
 
+      // 2022年10月17日 09点49分 basicPackage 上传两种Yaml的做法
+      {
+        path: 'basicPackage/easyPackage', name: 'easyPackage', component: () => import('../views/basicPackage/easyPackage')
+      }
 
 
 

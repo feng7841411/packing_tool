@@ -10,7 +10,7 @@
 
     <div style="float: right">
       <el-button type="primary">
-        单机版系统
+        封装工具基础版
       </el-button>
 
     </div>
