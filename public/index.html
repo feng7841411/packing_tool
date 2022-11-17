@@ -7,10 +7,19 @@
 
     <link rel="icon" href="<%= BASE_URL %>logo32.ico">
     <title>边缘打包工具web版</title>
+    <script src="config.js"></script>
 </head>
 <body>
+
+<script type="text/javascript">
+    document.write("<script src='./ipconfig.js?v=" + new Date().getTime() + "'><\/script>");
+</script>
+<script type="text/javascript">
+    document.write("<script src='./config.js?v=" + new Date().getTime() + "'><\/script>");
+</script>
 <noscript>
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+
 </noscript>
 <div id="app"></div>
 <!-- built files will be auto injected -->

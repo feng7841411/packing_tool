@@ -9,7 +9,7 @@
 
 
     <div style="flex-grow: 2;padding-top: 30px">
-      <div style="background-color: #cccccc;padding-top: 0px;flex-grow: 1"
+      <div style="background-color: #333333;padding-top: 0px;flex-grow: 1"
            v-loading="maskDialogVisible"
            element-loading-text="系统处理中......"
            element-loading-spinner="el-icon-loading"
@@ -21,7 +21,7 @@
           <el-row style="padding-top: 20px">
             <el-col :span="24">
               <span
-                style="font-weight: bold; padding-right: 10px;color: white;font-size: larger;float: left;padding-left: 20px">一、上传镜像tar包</span>
+                style="font-weight: bold; padding-right: 10px;color: white;font-size: larger;float: left;padding-left: 20px">一、上传镜像tar包、workLoadYaml、serviceYaml(必填)</span>
             </el-col>
           </el-row>
 
@@ -49,17 +49,6 @@
                 </el-upload>
               </div>
             </el-col>
-          </el-row>
-
-          <!--这个row是第二个描述标题-->
-          <el-row>
-            <el-col :span="24">
-              <span
-                style="font-weight: bold; padding-right: 10px;color: white;font-size: larger;float: left;padding-top: 20px;padding-left: 20px">二、workLoad和Service的Yaml文件</span>
-            </el-col>
-          </el-row>
-          <!--        这个row是上传两个yaml，用col隔开-->
-          <el-row>
             <el-col :span="8">
               <div style="padding-top: 0px;padding-left: 20px;float: left">
                 <el-upload action="#"
@@ -113,11 +102,49 @@
 
           </el-row>
 
+          <!--这个row是第二个描述标题-->
+          <el-row>
+            <el-col :span="24">
+              <span
+                style="font-weight: bold; padding-right: 10px;color: white;font-size: larger;float: left;padding-top: 20px;padding-left: 20px">二、上传挂载所需文件夹(可选)</span>
+            </el-col>
+          </el-row>
+          <!--这里改成了上传挂载的文件夹-->
+          <el-row>
+            <el-col :span="8">
+              <template>
+                <div style="float: left;padding-left: 20px">
+                  <input @change="getFiles($event)" style="background-color: #42b983;width: 200px" name="files"
+                         type="file" webkitdirectory mozdirectory/>
+                </div>
+                <div style="float: left;padding-left: 20px">
+                  <el-button @click="uploadFile" type="submit">上传</el-button>
+                </div>
+                <div style="float: left;padding-left: 20px;" v-if="ifUploadPlugInFiles">
+                  <i class="el-icon-success" style="color: green;font-size: 40px"></i>
+                </div>
+                <div style="float: left;padding-left: 20px" v-if="false">
+                  <el-button @click="testTransferPlugInFile" type="primary">测试挂载文件重建</el-button>
+                </div>
+                <div style="float: left;padding-left: 20px" v-if="false">
+                  <el-button @click="clearAllFile" type="warning">测试删除所有后端文件缓存</el-button>
+                </div>
+
+                <!--                <div style="float: left;padding-left: 20px;">-->
+                <!--                  <i class="el-icon-warning" style="color: yellow;font-size: 40px"></i>-->
+                <!--                </div>-->
+              </template>
+
+            </el-col>
+
+
+          </el-row>
+
           <!--这个row是第三个描述标题-->
           <el-row>
             <el-col :span="24">
               <span
-                style="font-weight: bold; padding-right: 10px;color: white;font-size: larger;float: left;padding-top: 20px;padding-left: 20px">三、请调写服务基础信息</span>
+                style="font-weight: bold; padding-right: 10px;color: white;font-size: larger;float: left;padding-top: 20px;padding-left: 20px">三、请调写服务基础信息(必填)</span>
             </el-col>
           </el-row>
 
@@ -142,7 +169,8 @@
                 <!--                              style="width: 200px;float: left"></el-input>-->
                 <!--                  </el-form-item>-->
 
-                <el-form-item label="软件运行环境" style="" label-width="150px" required prop="softwareEnvironment" class="item">
+                <el-form-item label="软件运行环境" style="" label-width="150px" required prop="softwareEnvironment"
+                              class="item">
                   <el-select v-model="BasicInfoForm.softwareEnvironment" placeholder="请选择"
                              style="width:200px;float: left">
                     <el-option label="x86" value="x86"></el-option>
@@ -152,7 +180,7 @@
                 </el-form-item>
                 <el-form-item label="服务版本号" style="" label-width="150px" required class="item">
                   <el-form-item prop="majorVersionNumber" style="float: left">
-                    <el-input v-model="BasicInfoForm.majorVersionNumber" style="width:200px;float: left"
+                    <el-input v-model="BasicInfoForm.majorVersionNumber" style="float: left"
                               placeholder="主版本号"></el-input>
                   </el-form-item>
 
@@ -191,11 +219,13 @@
                     </el-autocomplete>
                   </el-form-item>
                 </el-form-item>
-                <el-form-item label="containers cpuRequest" style="" label-width="250px" required prop="cpuRequests" class="item">
+                <el-form-item label="containers cpuRequest" style="" label-width="250px" required prop="cpuRequests"
+                              class="item">
                   <el-input v-model="BasicInfoForm.cpuRequests" placeholder="单位/核"
                             style="width:200px;float: left"></el-input>
                 </el-form-item>
-                <el-form-item label="containers memoryRequest" style="" label-width="300px" required prop="memoryRequests" class="item">
+                <el-form-item label="containers memoryRequest" style="" label-width="300px" required
+                              prop="memoryRequests" class="item">
                   <el-input v-model="BasicInfoForm.memoryRequests" placeholder="单位Mi"
                             style="width:200px;float: left"></el-input>
                 </el-form-item>
@@ -213,15 +243,18 @@
                        label-position="left"
               >
                 <el-form-item label="服务开发者" style="" label-width="150px" required prop="developerName" class="item">
-                  <el-input v-model="DeveloperInfoForm.developerName" placeholder="" style="width: 200px;float: left"></el-input>
+                  <el-input v-model="DeveloperInfoForm.developerName" placeholder=""
+                            style="width: 200px;float: left"></el-input>
                 </el-form-item>
 
                 <el-form-item label="服务开发单位" style="" label-width="150px" required prop="developerGroup" class="item">
-                  <el-input v-model="DeveloperInfoForm.developerGroup" placeholder="" style="width: 200px;float: left"></el-input>
+                  <el-input v-model="DeveloperInfoForm.developerGroup" placeholder=""
+                            style="width: 200px;float: left"></el-input>
                 </el-form-item>
 
                 <el-form-item label="联系方式" style="" label-width="150px" required prop="developerPhone" class="item">
-                  <el-input v-model="DeveloperInfoForm.developerPhone" placeholder="" style="width: 200px;float: left"></el-input>
+                  <el-input v-model="DeveloperInfoForm.developerPhone" placeholder=""
+                            style="width: 200px;float: left"></el-input>
                 </el-form-item>
               </el-form>
 
@@ -232,7 +265,12 @@
             <el-col :span="24">
               <div
                 style="float: inside; padding-left: 40px;padding-top: 10px; color:white;font-size: 20px;padding-bottom: 10px">
-                <el-button type="danger" @click="clearAllPage()">清空所有已填写内容</el-button>
+<!--                <el-button @click="testGetApi" type="warning">测试API获取</el-button>-->
+<!--                <el-button @click="testGetApi1" type="warning">测试API获取1</el-button>-->
+<!--                <el-button @click="testGetApi2" type="warning">测试API获取2</el-button>-->
+<!--                <el-button @click="testGetApi3" type="warning">测试API获取3</el-button>-->
+                <el-button @click="clearAllFile" type="warning">删除所有后台文件缓存</el-button>
+                <el-button type="danger" @click="clearAllPage()">清空页面所有已填写内容</el-button>
                 <el-button :disabled="isZipFileExist()" type="primary" @click="postPackingToolInfoForm()">提交信息
                 </el-button>
                 <el-button v-if="isZipFileExist()" type="success"><a
@@ -255,6 +293,9 @@
 import {serverIp} from "../../../public/config";
 import {serverHost} from "../../../public/config";
 
+import {ipconfig} from "../../../public/ipconfig"
+
+import axios from "axios";
 
 export default {
   name: "basicInfo",
@@ -352,6 +393,13 @@ export default {
       // 镜像文件列表
       fileList: [],
 
+
+      // 挂载上传文件夹
+      files: [],
+      pluginFileUIds: [],
+      ifUploadPlugInFiles: false,
+
+
       // wordLoadYaml上传的列表
       wordLoadYamlFileList: [],
 
@@ -446,7 +494,7 @@ export default {
         cpuRequests: [
           {required: true, message: '请输入容器服务cpu最低需求', trigger: 'blur'},
           {validator: validatePassNumber, trigger: 'blur'},
-          {pattern: /^([1-8])$/, message: '范围在1~8',trigger: 'blur'}
+          {pattern: /^([1-8])$/, message: '范围在1~8', trigger: 'blur'}
         ],
         memoryRequests: [
           {required: true, message: '请输入容器内存memory最低需求', trigger: 'blur'},
@@ -485,6 +533,59 @@ export default {
   },
   methods: {
 
+
+    testGetApi() {
+      let url = window.ipconfig.myUrl + "/testAxiosApi"
+      axios({
+        method: 'post',
+        url: url
+      }).then(res => {
+        if (res.data.code === '200') {
+          this.$message.success(res.data.msg);
+        }else {
+          this.$message.warning(res.data.msg);
+        }
+      })
+    },
+
+    testGetApi1() {
+      this.request.post("/testAxiosApi").then(res => {
+        if (res.code === '200') {
+          this.$message.success(res.msg);
+        }else {
+          this.$message.warning(res.msg);
+        }
+      })
+    },
+
+    testGetApi2() {
+      let url = "http://" + ipconfig.deploymentToolIp + ":" + ipconfig.deploymentToolPort + "/testAxiosApi"
+      axios({
+        method: 'post',
+        url: url
+      }).then(res => {
+        if (res.data.code === '200') {
+          this.$message.success(res.data.msg);
+        }else {
+          this.$message.warning(res.data.msg);
+        }
+      })
+    },
+
+    testGetApi3() {
+      let url = window.ipConfigUrl.baseURL + "/testAxiosApi"
+      axios({
+        method: 'post',
+        url: url
+      }).then(res => {
+        if (res.data.code === '200') {
+          this.$message.success(res.data.msg);
+        }else {
+          this.$message.warning(res.data.msg);
+        }
+      })
+    },
+
     // 上传镜像文件相关方法
     // upload组件
     checkImageFile(file) {
@@ -506,6 +607,8 @@ export default {
     },
     handleRemove(file, fileList) {
       // 增加一个，把packageDetailInfo重置清空掉
+      this.ImageInfoForm.imageFileName = '';
+      this.ImageInfoForm.imageFileUid = '';
       this.$message.info("文件已移除，请重新选取");
     },
 
@@ -576,6 +679,8 @@ export default {
       this.$message.success("文件已上传");
     },
     handleRemoveWorkLoadYaml(file, fileList) {
+      this.ImageInfoForm.workLoadYamlFileName = '';
+      this.ImageInfoForm.wordLoadYamlFileUid = '';
       this.$message.info("文件已移除，请重新选取");
     },
 
@@ -647,6 +752,8 @@ export default {
     },
     handleRemoveServiceYaml(file, fileList) {
       // 增加一个，把packageDetailInfo重置清空掉
+      this.ImageInfoForm.serviceYamlFileName = '';
+      this.ImageInfoForm.serviceYamlFileUid = '';
       this.$message.info("文件已移除，请重新选取");
     },
 
@@ -700,9 +807,8 @@ export default {
     loadAll() {
       return [
         {"value": "c"},
-        {"value": "c#"},
-        {"value": "go"},
         {"value": "cpp"},
+        {"value": "go"},
         {"value": "java"},
         {"value": "python"},
       ];
@@ -712,6 +818,11 @@ export default {
       const results = queryString ? softwareLanguages.filter(this.createFilter(queryString)) : softwareLanguages;
       // 调用 callback 返回建议列表的数据
       cb(results);
+    },
+    createFilter(queryString) {
+      return (restaurant) => {
+        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
     },
 
 
@@ -765,7 +876,8 @@ export default {
         params: {
           BasicInfoForm: this.BasicInfoForm,
           ImageInfoForm: this.ImageInfoForm,
-          DeveloperInfoForm: this.DeveloperInfoForm
+          DeveloperInfoForm: this.DeveloperInfoForm,
+          pluginFileUIds: this.pluginFileUIds,
         }
       }).then(res => {
         if (res.code == '200') {
@@ -781,6 +893,59 @@ export default {
     },
 
 
+    /**
+     * 2022年10月26日 22点03分 增加挂载文件夹上传
+     */
+    getFiles: function (event) {
+      var files = event.target.files;
+      for (var i = 0; i < files.length; i++) {
+        this.files.push(files[i]);
+      }
+    },
+    uploadFile: function () {
+      var formData = new FormData();
+      for (var i = 0; i < this.files.length; i++) {
+        formData.append('files', this.files[i]);
+      }
+      this.request.post("/file/uploadPlugInFile", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.info(res.msg);
+          this.pluginFileUIds = res.data;
+          this.ifUploadPlugInFiles = true;
+        }
+      })
+    },
+
+    // 2022年10月27日 09点07分 测试方法，把挂载文件重建在后端的FileTemp
+    testTransferPlugInFile() {
+      this.request.post("/file/testTransferPlugInFile", {
+        params: {
+          pluginFileUIds: this.pluginFileUIds,
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success(res.msg);
+        }
+      })
+    },
+
+
+    // 2022年10月27日 10点12分 方便自己调试，把后端的数据全清空
+    clearAllFile() {
+      this.request.post("/file/testClearAllFile", {
+        params: {
+          pluginFileUIds: this.pluginFileUIds,
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success(res.msg);
+        }
+      })
+    },
   },
   mounted() {
     this.softwareLanguages = this.loadAll();

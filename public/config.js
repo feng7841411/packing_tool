@@ -1,13 +1,31 @@
+import axios from "axios";
+
 export const webIp = 'localhost'
 export const webHost = '19800'
 
 // export const serverIp = '10.10.140.14'
 
 export const serverIp = 'localhost'
+export const serverHost = '19801'
+// 北京5号
+// export const serverIp = '192.168.181.5'
+
 // export const serverIp = '192.168.60.128'
 // export const serverIp = '10.10.140.14'
-export const serverHost = '19801'
+// export const serverIp = '10.10.100.15'
+// export const serverHost = '19801'
 
+// import {ipconfig} from './ipconfig'
+//
+// export const serverIp = ipconfig.deploymentToolIp
+// export const serverHost = ipconfig.deploymentToolPort
+// // export const serverHost = window.ipconfig.deploymentToolPort
+//
+// // let serverIp = window.ipconfig.deploymentToolIp
+// // let serverHost = window.ipconfig.deploymentToolPort
+// window.ipConfigUrl = {
+//   baseURL:"http://localhost:19800"
+// }
 
 
 // 这里考虑是否设计一个API路径标识，做真实数据引接和模拟数据接口的区别
