@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const webIp = 'localhost'
+// export const webIp = 'localhost'
 export const webHost = '19800'
 
 // export const serverIp = '10.10.140.14'

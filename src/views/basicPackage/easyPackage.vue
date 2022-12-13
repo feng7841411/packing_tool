@@ -219,6 +219,41 @@
                     </el-autocomplete>
                   </el-form-item>
                 </el-form-item>
+                <el-form-item label="服务功能描述" style="" label-width="150px" required prop="serviceDescription"
+                              class="item">
+                  <el-input type="textarea" v-model="BasicInfoForm.serviceDescription" placeholder="输入服务描述信息"
+                            style="width:600px;float: left" :autosize="{ minRows: 3, maxRows: 5}"></el-input>
+                </el-form-item>
+                <el-form-item label="服务标签" label-width="150px" class="item" required>
+                  <el-tag
+                    style="float: left"
+                    size="big"
+                    :key="tag"
+                    v-for="tag in BasicInfoForm.keywordList"
+                    closable
+                    :disable-transitions="false"
+                    @close="handleClose(tag)">
+                    {{tag}}
+                  </el-tag>
+                  <el-input
+                    class="input-new-tag"
+                    v-if="inputVisible"
+                    v-model="inputValue"
+                    ref="saveTagInput"
+                    size="medium"
+                    @keyup.enter.native="handleInputConfirm"
+                    @blur="handleInputConfirm"
+                    style="float: left"
+                  >
+                  </el-input>
+                  <el-button v-else class="button-new-tag" size="small" @click="showInput" style="float: left;">+增加标签</el-button>
+                </el-form-item>
+
+
+
+
+
+
                 <el-form-item label="containers cpuRequest" style="" label-width="250px" required prop="cpuRequests"
                               class="item">
                   <el-input v-model="BasicInfoForm.cpuRequests" placeholder="单位/核"
@@ -429,7 +464,13 @@ export default {
         // 容器资源限制
         cpuRequests: '',
         memoryRequests: '',
+        // 2022年11月30日 时间，增加2个
+        serviceDescription:'',
+        keywordList:[],
       },
+      dynamicTags: ['标签一', '标签二', '标签三'],
+      inputVisible: false,
+      inputValue: '',
 
       // 3个文件信息
       // 镜像信息表单
@@ -490,6 +531,9 @@ export default {
         ],
         languageName: [
           {required: true, message: '请输入开发语言', trigger: 'change'},
+        ],
+        serviceDescription: [
+          {required:true, message:'请描述服务功能、作用',trigger:'blur'},
         ],
         cpuRequests: [
           {required: true, message: '请输入容器服务cpu最低需求', trigger: 'blur'},
@@ -642,7 +686,6 @@ export default {
             this.$message.success("上传成功")
           } else {
             this.$message.error("上传失败,原因:" + res.msg)
-
             // 关闭蒙层
             this.maskDialogVisible = false;
           }
@@ -882,10 +925,14 @@ export default {
       }).then(res => {
         if (res.code == '200') {
           this.zipFileName = res.data;
-          this.$message.success("封装完成")
+          this.$message.success("封装完成");
+          this.maskDialogVisible = false;
+        }else {
+          this.$message.error("封装失败");
+          this.maskDialogVisible = false;
         }
       })
-      this.maskDialogVisible = false;
+
     },
 
     isZipFileExist() {
@@ -946,10 +993,34 @@ export default {
         }
       })
     },
+    // 2022年11月30日 20点13分 动态增加标签，3个方法
+    handleClose(tag) {
+      this.BasicInfoForm.keywordList.splice(this.BasicInfoForm.keywordList.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.BasicInfoForm.keywordList.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    }
   },
   mounted() {
     this.softwareLanguages = this.loadAll();
   },
+
+
+
+
 }
 </script>
 
@@ -959,5 +1030,20 @@ export default {
   color: white;
   font-size: large;
 
+}
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
 }
 </style>
