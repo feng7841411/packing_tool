@@ -12,7 +12,7 @@
 <body>
 
 <script type="text/javascript">
-    document.write("<script src='./ipconfig.js?v=" + new Date().getTime() + "'><\/script>");
+    document.write("<script src=" + new Date().getTime() + "'ipConfig.js?v='><\/script>");
 </script>
 <script type="text/javascript">
     document.write("<script src='./config.js?v=" + new Date().getTime() + "'><\/script>");
@@ -23,5 +23,7 @@
 </noscript>
 <div id="app"></div>
 <!-- built files will be auto injected -->
+<script src="<%= BASE_URL %>ipConfig.js"></script><!--在html内引入新建的ipConfig.js-->
+<script src="<%= BASE_URL %>config.js"></script><!--在html内引入新建的ipConfig.js-->
 </body>
 </html>

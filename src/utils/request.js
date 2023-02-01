@@ -8,7 +8,8 @@ import {apiVersion} from "../../public/config";
 
 
 const request = axios.create({
-    baseURL: `http://${serverIp}:${serverHost}/` + apiVersion,
+    // baseURL: `http://${serverIp}:${serverHost}/` + apiVersion,4
+    baseURL: IpConfig,
     timeout: 300000
 })
 

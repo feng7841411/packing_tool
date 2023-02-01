@@ -303,14 +303,18 @@
 <!--                <el-button @click="testGetApi" type="warning">测试API获取</el-button>-->
 <!--                <el-button @click="testGetApi1" type="warning">测试API获取1</el-button>-->
 <!--                <el-button @click="testGetApi2" type="warning">测试API获取2</el-button>-->
-<!--                <el-button @click="testGetApi3" type="warning">测试API获取3</el-button>-->
+
                 <el-button @click="clearAllFile" type="warning">删除所有后台文件缓存</el-button>
                 <el-button type="danger" @click="clearAllPage()">清空页面所有已填写内容</el-button>
                 <el-button :disabled="isZipFileExist()" type="primary" @click="postPackingToolInfoForm()">提交信息
                 </el-button>
+<!--                <el-button v-if="isZipFileExist()" type="success"><a-->
+<!--                  :href="'http://' + this.serverIp + ':' + this.serverHost + '/v1/packingToolForm/getZipFile?'+ 'zipFileName=' + this.zipFileName">-->
+<!--                  下载封装文件-->
+<!--                </a></el-button>-->
                 <el-button v-if="isZipFileExist()" type="success"><a
-                  :href="'http://' + this.serverIp + ':' + this.serverHost + '/v1/packingToolForm/getZipFile?'+ 'zipFileName=' + this.zipFileName">
-                  下载封装文件
+                  :href="this.IPCONFIG + '/packingToolForm/getZipFile?'+ 'zipFileName=' + this.zipFileName">
+                  下载封装包
                 </a></el-button>
               </div>
             </el-col>
@@ -328,7 +332,8 @@
 import {serverIp} from "../../../public/config";
 import {serverHost} from "../../../public/config";
 
-import {ipconfig} from "../../../public/ipconfig"
+
+
 
 import axios from "axios";
 
@@ -416,6 +421,8 @@ export default {
     return {
       serverIp: serverIp,
       serverHost: serverHost,
+
+      IPCONFIG: IpConfig,
 
       note: {
         backgroundImage: "url(" + require("../../assets/basic_design.png") + ")",
@@ -602,33 +609,8 @@ export default {
       })
     },
 
-    testGetApi2() {
-      let url = "http://" + ipconfig.deploymentToolIp + ":" + ipconfig.deploymentToolPort + "/testAxiosApi"
-      axios({
-        method: 'post',
-        url: url
-      }).then(res => {
-        if (res.data.code === '200') {
-          this.$message.success(res.data.msg);
-        }else {
-          this.$message.warning(res.data.msg);
-        }
-      })
-    },
 
-    testGetApi3() {
-      let url = window.ipConfigUrl.baseURL + "/testAxiosApi"
-      axios({
-        method: 'post',
-        url: url
-      }).then(res => {
-        if (res.data.code === '200') {
-          this.$message.success(res.data.msg);
-        }else {
-          this.$message.warning(res.data.msg);
-        }
-      })
-    },
+
 
     // 上传镜像文件相关方法
     // upload组件
